@@ -122,40 +122,52 @@ if "result" in st.session_state:
     st.markdown("---")
     st.subheader("💬 Ask Follow-up Questions")
 
-    user_query = st.text_input("Ask anything about this property")
+    user_query = st.text_input("💬 Ask anything about this property")
 
     if user_query:
-        from rag.retriever import retrieve_context
-        from langchain_groq import ChatGroq
+        banned_keywords = [
+            "murder", "kill", "crime", "weapon", "hack", "drugs",
+            "violence", "attack", "bomb"
+        ]
 
-        llm = ChatGroq(
-            model="llama-3.3-70b-versatile",
-            api_key=os.environ.get("GROQ_API_KEY", "")
-        )
+        # ❌ Hard block dangerous/unrelated queries
+        if any(word in user_query.lower() for word in banned_keywords):
+            st.warning("❌ I can only assist with real estate and property-related queries.")
+        else:
+            from rag.retriever import retrieve_context
+            from langchain_groq import ChatGroq
 
-        context = retrieve_context(user_query)
-        result = st.session_state["result"]
-        property_input = st.session_state["property"]
+            llm = ChatGroq(
+                model="llama-3.3-70b-versatile",
+                api_key=os.environ.get("GROQ_API_KEY", "")
+            )
 
-        prompt = f"""
-You are a real estate investment advisor.
+            context = retrieve_context(user_query)
 
-PROPERTY:
-{property_input}
+            prompt = f"""
+    You are a professional real estate advisor.
 
-PREDICTED PRICE:
-{result.get("predicted_price")}
+    RULES:
+    - You can answer:
+    • property opinions (e.g., "is it nice?", "good area?")
+    • investment advice (buy/sell/ROI)
+    • market trends
+    - If the question is unrelated to real estate, politely say:
+    "I can only assist with real estate-related queries."
 
-MARKET CONTEXT:
-{context}
+    PROPERTY:
+    {st.session_state["property"]}
 
-USER QUESTION:
-{user_query}
+    MARKET CONTEXT:
+    {context}
 
-Give a clear, practical answer.
-"""
+    USER QUESTION:
+    {user_query}
 
-        response = llm.invoke(prompt)
+    Answer clearly, professionally, and helpfully.
+    """
 
-        st.markdown("### 🤖 AI Response")
-        st.write(response.content)
+            response = llm.invoke(prompt)
+
+            st.markdown("### 🤖 AI Response")
+            st.write(response.content)
