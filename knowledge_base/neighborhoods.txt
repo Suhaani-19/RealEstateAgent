@@ -1,0 +1,15 @@
+King County Neighborhood Guide
+
+Seattle (WA 98101 to 98199): Urban core, highest prices, walkable, tech worker demand, strong rental market.
+Bellevue (WA 98004 98005 98006 98007 98008): Affluent suburb, Microsoft Amazon employees, top school districts, premium pricing.
+Redmond (WA 98052 98053): Microsoft campus city, strong tech employment, excellent schools, high demand.
+Kirkland (WA 98033 98034): Waterfront community on Lake Washington, premium lifestyle, strong appreciation.
+Sammamish (WA 98074 98075): Family-oriented suburb, top-ranked schools, newer construction, high demand.
+Issaquah (WA 98027 98029): Growing tech suburb, good schools, outdoor recreation access, appreciating market.
+Shoreline (WA 98133 98155 98177): Budget-friendly Seattle adjacent, strong rental demand, transit-oriented growth.
+Kent (WA 98030 98031 98032 98042): More affordable, industrial employment base, lower appreciation rate.
+Auburn (WA 98001 98002 98003): Entry-level market, affordable, slower appreciation than north county.
+Federal Way (WA 98003 98023): Budget market, diverse demographics, commercial development ongoing.
+Renton (WA 98055 98056 98057 98058 98059): Boeing employment base, improving market, moderate prices.
+Mercer Island (WA 98040): Exclusive island community, ultra-premium prices, wealthy demographic.
+Medina (WA 98039): Among most expensive zip codes in USA, billionaire neighborhood, extreme premium.
