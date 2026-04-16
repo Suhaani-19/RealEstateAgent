@@ -36,7 +36,13 @@ col1, col2, col3 = st.columns(3)
 with col1:
     st.subheader("📍 Location")
     city = st.selectbox("City", CITIES, index=CITIES.index("Seattle"))
-    statezip = st.selectbox("Zip Code", STATEZIPS, index=STATEZIPS.index("WA 98103"))
+
+    # ✅ ONLY CHANGE HERE (ZIP FIX)
+    area = st.selectbox(
+        "Area / Zip Code",
+        STATEZIPS,
+        index=STATEZIPS.index("WA 98103")
+    )
 
 with col2:
     st.subheader("🏗️ Property Details")
@@ -80,7 +86,10 @@ if st.button("🔍 Analyze Property", use_container_width=True):
             "yr_built": int(yr_built),
             "yr_renovated": int(yr_renovated),
             "city": city,
-            "statezip": statezip,
+
+            # ✅ ONLY CHANGE HERE
+            "statezip": area,
+
             "predicted_price": None,
             "market_context": None,
             "advisory_report": None,
@@ -145,27 +154,27 @@ if "result" in st.session_state:
             context = retrieve_context(user_query)
 
             prompt = f"""
-    You are a professional real estate advisor.
+You are a professional real estate advisor.
 
-    RULES:
-    - You can answer:
-    • property opinions (e.g., "is it nice?", "good area?")
-    • investment advice (buy/sell/ROI)
-    • market trends
-    - If the question is unrelated to real estate, politely say:
-    "I can only assist with real estate-related queries."
+RULES:
+- You can answer:
+• property opinions (e.g., "is it nice?", "good area?")
+• investment advice (buy/sell/ROI)
+• market trends
+- If the question is unrelated to real estate, politely say:
+"I can only assist with real estate-related queries."
 
-    PROPERTY:
-    {st.session_state["property"]}
+PROPERTY:
+{st.session_state["property"]}
 
-    MARKET CONTEXT:
-    {context}
+MARKET CONTEXT:
+{context}
 
-    USER QUESTION:
-    {user_query}
+USER QUESTION:
+{user_query}
 
-    Answer clearly, professionally, and helpfully.
-    """
+Answer clearly, professionally, and helpfully.
+"""
 
             response = llm.invoke(prompt)
 
