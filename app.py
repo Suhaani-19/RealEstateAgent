@@ -29,7 +29,7 @@ st.markdown("ML + RAG + LangGraph + LLM")
 st.markdown("---")
 
 # ── Inputs ────────────────────────────────────────────────────────────────
-from agent.nodes import CITIES, STATEZIPS
+from agent.nodes import CITIES, CITY_ZIP_MAP
 
 col1, col2, col3 = st.columns(3)
 
@@ -37,11 +37,13 @@ with col1:
     st.subheader("📍 Location")
     city = st.selectbox("City", CITIES, index=CITIES.index("Seattle"))
 
-    # ✅ ONLY CHANGE HERE (ZIP FIX)
+    # ✅ FIXED: ZIP depends on city
+    zip_options = CITY_ZIP_MAP.get(city, [])
+
     area = st.selectbox(
         "Area / Zip Code",
-        STATEZIPS,
-        index=STATEZIPS.index("WA 98103")
+        zip_options,
+        index=0
     )
 
 with col2:
@@ -86,10 +88,7 @@ if st.button("🔍 Analyze Property", use_container_width=True):
             "yr_built": int(yr_built),
             "yr_renovated": int(yr_renovated),
             "city": city,
-
-            # ✅ ONLY CHANGE HERE
             "statezip": area,
-
             "predicted_price": None,
             "market_context": None,
             "advisory_report": None,
@@ -99,13 +98,11 @@ if st.button("🔍 Analyze Property", use_container_width=True):
         graph = build_graph()
         result = graph.invoke(property_input)
 
-        # Save result for chat use
         st.session_state["result"] = result
         st.session_state["property"] = property_input
 
         st.success("Analysis complete!")
 
-        # Metrics
         if result.get("predicted_price"):
             price = result["predicted_price"]
             col1, col2, col3 = st.columns(3)
@@ -113,19 +110,17 @@ if st.button("🔍 Analyze Property", use_container_width=True):
             col2.metric("City", city)
             col3.metric("Size", f"{sqft_living} sqft")
 
-        # Advisory
         st.markdown("---")
         st.subheader("📋 Advisory Report")
         st.markdown(result.get("advisory_report", ""))
 
-        # RAG
         with st.expander("🔍 Market Data"):
             st.text(result.get("market_context", ""))
 
         if result.get("error"):
             st.error(result["error"])
 
-# ── Chat Section (Agentic AI part) ─────────────────────────────────────────
+# ── Chat Section ───────────────────────────────────────────────────────────
 if "result" in st.session_state:
 
     st.markdown("---")
@@ -139,7 +134,6 @@ if "result" in st.session_state:
             "violence", "attack", "bomb"
         ]
 
-        # ❌ Hard block dangerous/unrelated queries
         if any(word in user_query.lower() for word in banned_keywords):
             st.warning("❌ I can only assist with real estate and property-related queries.")
         else:
@@ -156,14 +150,6 @@ if "result" in st.session_state:
             prompt = f"""
 You are a professional real estate advisor.
 
-RULES:
-- You can answer:
-• property opinions (e.g., "is it nice?", "good area?")
-• investment advice (buy/sell/ROI)
-• market trends
-- If the question is unrelated to real estate, politely say:
-"I can only assist with real estate-related queries."
-
 PROPERTY:
 {st.session_state["property"]}
 
@@ -173,7 +159,7 @@ MARKET CONTEXT:
 USER QUESTION:
 {user_query}
 
-Answer clearly, professionally, and helpfully.
+Answer clearly and professionally.
 """
 
             response = llm.invoke(prompt)
