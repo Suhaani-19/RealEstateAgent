@@ -7,21 +7,6 @@ st.set_page_config(
     layout="wide"
 )
 
-# ── Sidebar ────────────────────────────────────────────────────────────────
-with st.sidebar:
-    st.title("⚙️ Settings")
-    api_key = st.text_input("GROQ_API_KEY", type="password")
-
-    if api_key:
-        os.environ["GROQ_API_KEY"] = api_key
-        st.success("API key set!")
-
-    st.markdown("---")
-    st.markdown("**How it works:**")
-    st.markdown("1. ML predicts price")
-    st.markdown("2. RAG fetches market data")
-    st.markdown("3. AI generates advisory")
-    st.markdown("4. You can ask follow-up questions")
 
 # ── Header ────────────────────────────────────────────────────────────────
 st.title("🏠 AI Real Estate Investment Advisor")
