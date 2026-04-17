@@ -54,9 +54,6 @@ st.markdown("---")
 # ── Run Analysis ───────────────────────────────────────────────────────────
 if st.button("🔍 Analyze Property", use_container_width=True):
 
-    if not os.environ.get("GROQ_API_KEY"):
-        st.error("Enter Groq API key first!")
-    else:
         from agent.graph import build_graph
 
         property_input = {
@@ -127,8 +124,8 @@ if "result" in st.session_state:
 
             llm = ChatGroq(
                 model="llama-3.3-70b-versatile",
-                api_key=os.environ.get("GROQ_API_KEY", "")
-            )
+                api_key=st.secrets["GROQ_API_KEY"]
+                    )
 
             context = retrieve_context(user_query)
 

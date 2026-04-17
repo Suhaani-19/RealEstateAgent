@@ -152,10 +152,12 @@ def node_generate_advisory(state: PropertyState) -> PropertyState:
     try:
         from langchain_groq import ChatGroq
         import os
+        import streamlit as st
+        
 
         llm = ChatGroq(
             model="llama-3.1-8b-instant",
-            api_key=os.environ.get("GROQ_API_KEY", "")
+            api_key=st.secrets["GROQ_API_KEY"]
         )
 
         price = state.get("predicted_price")
