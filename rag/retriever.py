@@ -9,38 +9,31 @@ _db = None
 def get_db():
     global _db
 
+    # 💥 FORCE DELETE BAD DB ON START (important for Streamlit Cloud)
+    if os.path.exists("./chroma_db"):
+        try:
+            # try opening → if fails, delete
+            test_db = Chroma(
+                persist_directory="./chroma_db",
+                embedding_function=HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+            )
+            test_db._collection.count()
+        except:
+            shutil.rmtree("./chroma_db")
+
     if _db is None:
         embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
-        try:
-            _db = Chroma(
-                persist_directory="./chroma_db",
-                embedding_function=embeddings
-            )
+        _db = Chroma(
+            persist_directory="./chroma_db",
+            embedding_function=embeddings
+        )
 
-            # ✅ If empty → insert default data
-            if _db._collection.count() == 0:
-                docs = [Document(page_content="""
-                Real estate markets generally show steady growth.
-                Waterfront properties have higher premiums.
-                High-demand areas see faster appreciation.
-                Rental yields typically range between 4-7%.
-                Newer homes often have better resale value.
-                """)]
+        # insert default data if empty
+        if _db._collection.count() == 0:
+            from langchain.schema import Document
 
-                _db.add_documents(docs)
-                _db.persist()
-
-        except Exception:
-            # 💥 Reset corrupted DB
-            if os.path.exists("./chroma_db"):
-                shutil.rmtree("./chroma_db")
-
-            docs = [Document(page_content="Real estate market trends vary by location and demand.")]
-            _db = Chroma(
-                persist_directory="./chroma_db",
-                embedding_function=embeddings
-            )
+            docs = [Document(page_content="Real estate markets show steady growth with location-based demand.")]
             _db.add_documents(docs)
             _db.persist()
 
