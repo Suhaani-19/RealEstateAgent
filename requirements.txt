@@ -10,3 +10,4 @@ scikit-learn
 pandas
 numpy
 protobuf==3.20.3
+chromadb==0.4.24
