@@ -1,5 +1,3 @@
-import os
-import shutil
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain.docstore.document import Document
@@ -12,13 +10,7 @@ def get_db():
     if _db is None:
         embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
-        # 🔥 Always reset DB (fixes tenant error)
-        if os.path.exists("./chroma_db"):
-            shutil.rmtree("./chroma_db")
-
-        os.makedirs("./chroma_db", exist_ok=True)
-
-        # load data
+        # 🔥 create documents safely
         try:
             with open("data/market_data.txt", "r") as f:
                 text = f.read()
@@ -27,11 +19,15 @@ def get_db():
 
         docs = [Document(page_content=text)]
 
+        # 🔥 IMPORTANT: explicit collection name
         _db = Chroma.from_documents(
-            docs,
+            documents=docs,
             embedding=embeddings,
+            collection_name="market_data",   # ✅ THIS FIXES TENANT ISSUE
             persist_directory="./chroma_db"
         )
+
+        _db.persist()  # ensure it's saved
 
     return _db
 
