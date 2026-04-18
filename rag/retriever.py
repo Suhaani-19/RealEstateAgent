@@ -1,4 +1,5 @@
 import os
+import shutil
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain.docstore.document import Document
@@ -11,28 +12,26 @@ def get_db():
     if _db is None:
         embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
-        # if DB doesn't exist → create it
-        if not os.path.exists("./chroma_db"):
-            os.makedirs("./chroma_db", exist_ok=True)
+        # 🔥 Always reset DB (fixes tenant error)
+        if os.path.exists("./chroma_db"):
+            shutil.rmtree("./chroma_db")
 
-            # load market data
+        os.makedirs("./chroma_db", exist_ok=True)
+
+        # load data
+        try:
             with open("data/market_data.txt", "r") as f:
                 text = f.read()
+        except:
+            text = "No market data available."
 
-            docs = [Document(page_content=text)]
+        docs = [Document(page_content=text)]
 
-            _db = Chroma.from_documents(
-                docs,
-                embedding=embeddings,
-                persist_directory="./chroma_db"
-            )
-            _db.persist()
-
-        else:
-            _db = Chroma(
-                persist_directory="./chroma_db",
-                embedding_function=embeddings
-            )
+        _db = Chroma.from_documents(
+            docs,
+            embedding=embeddings,
+            persist_directory="./chroma_db"
+        )
 
     return _db
 
