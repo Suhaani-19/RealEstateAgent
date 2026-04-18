@@ -138,10 +138,9 @@ def node_predict_price(state: PropertyState) -> PropertyState:
 
 
 def node_retrieve_market(state: PropertyState) -> PropertyState:
-    """Node 2: RAG retrieval."""
     try:
         query = f"{state['city']} {state['statezip']} real estate investment property"
-        context = retrieve_context(query)
+        context = retrieve_context(query, state["city"])
         return {**state, "market_context": context}
     except Exception as e:
         return {**state, "market_context": "Market data unavailable.", "error": str(e)}
