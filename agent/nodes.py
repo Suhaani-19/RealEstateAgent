@@ -140,11 +140,17 @@ def node_predict_price(state: PropertyState) -> PropertyState:
 def node_retrieve_market(state: PropertyState) -> PropertyState:
     try:
         query = f"{state['city']} {state['statezip']} real estate investment property"
-        context = retrieve_context(query, state["city"])
-        return {**state, "market_context": context}
-    except Exception as e:
-        return {**state, "market_context": "Market data unavailable.", "error": str(e)}
 
+        context = retrieve_context(query, state['city'])
+
+        return {**state, "market_context": context}
+
+    except Exception as e:
+        return {
+            **state,
+            "market_context": "Market data unavailable.",
+            "error": str(e)
+        }
 
 def node_generate_advisory(state: PropertyState) -> PropertyState:
     """Node 3: LLM advisory generation."""
