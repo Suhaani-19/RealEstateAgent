@@ -127,7 +127,7 @@ if "result" in st.session_state:
                 api_key=st.secrets["GROQ_API_KEY"]
                     )
 
-            context = retrieve_context(user_query, selected_city)
+            context = retrieve_context(f"{city} {user_query}", city)
 
             prompt = f"""
 You are a professional real estate advisor.
