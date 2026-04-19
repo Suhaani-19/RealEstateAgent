@@ -8,12 +8,12 @@ st.set_page_config(
 )
 
 
-# ── Header ────────────────────────────────────────────────────────────────
+
 st.title("🏠 AI Real Estate Investment Advisor")
 st.markdown("ML + RAG + LangGraph + LLM")
 st.markdown("---")
 
-# ── Inputs ────────────────────────────────────────────────────────────────
+
 from agent.nodes import CITIES, CITY_ZIP_MAP
 
 col1, col2, col3 = st.columns(3)
@@ -22,7 +22,6 @@ with col1:
     st.subheader("📍 Location")
     city = st.selectbox("City", CITIES, index=CITIES.index("Seattle"))
 
-    # ✅ FIXED: ZIP depends on city
     zip_options = CITY_ZIP_MAP.get(city, [])
 
     area = st.selectbox(
@@ -51,7 +50,7 @@ with col3:
 
 st.markdown("---")
 
-# ── Run Analysis ───────────────────────────────────────────────────────────
+
 if st.button("🔍 Analyze Property", use_container_width=True):
 
         from agent.graph import build_graph
@@ -102,7 +101,7 @@ if st.button("🔍 Analyze Property", use_container_width=True):
         if result.get("error"):
             st.error(result["error"])
 
-# ── Chat Section ───────────────────────────────────────────────────────────
+
 if "result" in st.session_state:
 
     st.markdown("---")
