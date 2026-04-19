@@ -242,7 +242,7 @@ The system supports 39 cities in King County, Washington, with over 100 ZIP code
 |------|-------------------|------|
 | Suhaani Garg | 2401010462 | Core AI (ML + RAG + LLM, LangGraph) |
 | Prachee Dhar | 2401010330 | Documentation & Report |
-| Manjeet | 2401010262 | GitHub & Deployment Setup |
+| Manjeet | 2401010262 | Github & Streamlit UI & Deployment Setup |
 | Aarya Srivastava | 2401010008 | UI & Frontend Integration |
 
 ##  License
