@@ -1,4 +1,4 @@
-#  AI Real Estate Investment Advisor
+#  AI Real Estate Investment Advisor 
 
 An intelligent real estate advisory system that combines **Machine Learning**, **Retrieval-Augmented Generation (RAG)**, and **LLMs** to provide data-driven investment recommendations for properties in King County, Washington.
 
