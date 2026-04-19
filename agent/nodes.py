@@ -4,7 +4,7 @@ import numpy as np
 from agent.state import PropertyState
 from rag.retriever import retrieve_context
 
-# Load your Milestone 1 model once when the file loads
+
 model = joblib.load("house_price_model.pkl")
 scaler = joblib.load("scaler.pkl")
 model_columns = model.feature_names_in_
@@ -108,24 +108,24 @@ def node_predict_price(state: PropertyState) -> PropertyState:
             'yr_renovated': [state['yr_renovated']],
         }
 
-        # One-hot encode city
+       
         for city in CITIES:
             input_data[f'city_{city}'] = [1 if state['city'] == city else 0]
 
-        # One-hot encode statezip (SAFE VERSION)
+        
         for sz in STATEZIPS:
             input_data[f'statezip_{sz}'] = [1 if zip_value == sz else 0]
 
         df_input = pd.DataFrame(input_data)
 
-        # Ensure all model columns exist
+        
         for col in model_columns:
             if col not in df_input.columns:
                 df_input[col] = 0
 
         df_input = df_input[model_columns]
 
-        # Scale numeric features safely
+       
         numeric_cols = ['sqft_living','sqft_lot','sqft_above','sqft_basement']
         df_input[numeric_cols] = scaler.transform(df_input[numeric_cols])
 
