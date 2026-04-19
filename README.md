@@ -236,13 +236,18 @@ The system supports 39 cities in King County, Washington, with over 100 ZIP code
 - [ ] Neighborhood walkability scores
 - [ ] School district ratings
 
+## Team
+
+| Name | Enrollment Number | Role |
+|------|-------------------|------|
+| Suhaani Garg | 2401010462 | Core AI (ML + RAG + LLM, LangGraph) |
+| Prachee Dhar | 2401010330 | Documentation & Report |
+| Manjeet | 2401010262 | GitHub & Deployment Setup |
+| Aarya Srivastava | 2401010008 | UI & Frontend Integration |
+
 ##  License
 
 This project is open source and available under the MIT License.
-
-## Author
-
-Created as part of an AI-powered real estate advisory system project.
 
 ---
 
