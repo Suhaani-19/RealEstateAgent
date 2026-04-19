@@ -1,2 +1,4 @@
 chroma_db/*
 !chroma_db/.gitkeep
+__pycache__/
+*.pyc
