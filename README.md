@@ -1,4 +1,4 @@
-#  AI Real Estate Investment Advisor
+#  AI Real Estate Investment Advisor 
 
 An intelligent real estate advisory system that combines **Machine Learning**, **Retrieval-Augmented Generation (RAG)**, and **LLMs** to provide data-driven investment recommendations for properties in King County, Washington.
 
@@ -236,13 +236,18 @@ The system supports 39 cities in King County, Washington, with over 100 ZIP code
 - [ ] Neighborhood walkability scores
 - [ ] School district ratings
 
+## Team
+
+| Name | Enrollment Number | Role |
+|------|-------------------|------|
+| Suhaani Garg | 2401010462 | Core AI (ML + RAG + LLM, LangGraph) |
+| Prachee Dhar | 2401010330 | Documentation & Report |
+| Manjeet | 2401010262 | Github & Streamlit UI & Deployment Setup |
+| Aarya Srivastava | 2401010008 | UI & Frontend Integration |
+
 ##  License
 
 This project is open source and available under the MIT License.
-
-## Author
-
-Created as part of an AI-powered real estate advisory system project.
 
 ---
 
